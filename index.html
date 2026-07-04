@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>砚弛贸易l | 服饰家居综合零售站 Clothing & Home Goods Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+        ul {
+            list-style: none;
+        }
+        .en-text {
+            font-size: 13px;
+            color: #777;
+            display: block;
+            margin-top: 3px;
+        }
+        /* 头部导航 */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 8px #eee;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        .nav-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .nav-list {
+            display: flex;
+            gap: 35px;
+        }
+        .nav-list li a {
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .nav-list li a:hover {
+            color: #2563eb;
+        }
+        .nav-tool {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+        /* 轮播横幅 */
+        .banner {
+            width: 100%;
+            height: 420px;
+            overflow: hidden;
+            position: relative;
+        }
+        .banner-item {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .banner-item h2 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+        .banner-item .en-banner {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        .banner-item p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .banner-btn {
+            padding: 12px 32px;
+            background: #fff;
+            color: #2563eb;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+        /* 通用容器 */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .title-box {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .title-box h3 {
+            font-size: 30px;
+            color: #111;
+            margin-bottom: 6px;
+        }
+        .title-box .en-title {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .title-box span {
+            display: inline-block;
+            width: 60px;
+            height: 3px;
+            background: #2563eb;
+        }
+        /* 商品网格 */
+        .goods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .goods-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .goods-card:hover {
+            box-shadow: 0 5px 18px #ddd;
+            transform: translateY(-6px);
+        }
+        .goods-img {
+            width: 100%;
+            height: 240px;
+            background: #f5f7fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: #ccc;
+        }
+        .goods-info {
+            padding: 18px;
+        }
+        .goods-name {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        .goods-price {
+            font-size: 20px;
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .add-cart {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        /* 分类快捷入口 */
+        .cate-wrap {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+        .cate-item {
+            height: 140px;
+            background: #eff6ff;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #2563eb;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .cate-item:hover {
+            background: #2563eb;
+            color: white;
+        }
+        /* 悬浮购物车 */
+        .float-cart {
+            position: fixed;
+            right: 30px;
+            bottom: 130px;
+            width: 60px;
+            height: 60px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 98;
+        }
+        .cart-num {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 22px;
+            height: 22px;
+            background: red;
+            border-radius: 50%;
+            font-size: 12px;
+            text-align: center;
+            line-height: 22px;
+        }
+        /* WhatsApp悬浮窗口样式 */
+        .float-whatsapp {
+            position: fixed;
+            right: 30px;
+            bottom: 60px;
+            z-index: 99;
+        }
+        .wa-btn {
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+        }
+        .wa-btn:hover {
+            transform: scale(1.1);
+        }
+        .wa-box {
+            width: 260px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px #ddd;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        .wa-box h4 {
+            color: #222;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+        .wa-box p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .wa-phone {
+            font-size: 18px;
+            font-weight: bold;
+            color: #25D366;
+            margin-bottom:15px;
+        }
+        .wa-link {
+            display:block;
+            width:100%;
+            text-align:center;
+            padding:9px 0;
+            background:#25D366;
+            color:#fff;
+            border-radius:8px;
+            font-weight:bold;
+        }
+        /* 页脚 */
+        footer {
+            background: #1f2937;
+            color: #aaa;
+            padding: 60px 0 30px;
+        }
+        .footer-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        .footer-col h4 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+        .footer-col a {
+            color: #aaa;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+            line-height: 1.6;
+        }
+        /* 移动端适配 */
+        @media(max-width:768px){
+            .nav-list {
+                display: none;
+            }
+            .cate-wrap {
+                grid-template-columns: repeat(2,1fr);
+            }
+            .footer-wrap {
+                grid-template-columns: repeat(2,1fr);
+            }
+            .banner {
+                height: 300px;
+            }
+            .banner-item h2 {
+                font-size: 26px;
+            }
+            .float-cart {
+                bottom:120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-wrap">
+            <a href="#" class="logo">LifeMall</a>
+            <ul class="nav-list">
+                <li>
+                    <a href="#home">首页
+                        <span class="en-text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#clothes">服饰专区
+                        <span class="en-text">Clothing Zone</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#homegoods">家居生活用品
+                        <span class="en-text">Home Supplies</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#hot">热销榜单
+                        <span class="en-text">Bestsellers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about">关于我们
+                        <span class="en-text">About Us</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-tool">
+                <span>🔍</span>
+                <span>👤</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 轮播横幅 -->
+    <section class="banner" id="home">
+        <div class="banner-item">
+            <h2>全场服饰家居一件包邮</h2>
+            <div class="en-banner">Free Shipping on All Clothing & Home Goods</div>
+            <p>上新季全场低至5折，海量生活用品随心选购</p>
+            <a href="#clothes" class="banner-btn">立即选购 / Shop Now</a>
+        </div>
+    </section>
+
+    <!-- 分类快捷入口 -->
+    <div class="container">
+        <div class="cate-wrap">
+            <div class="cate-item">
+                女装服饰
+                <span class="en-text">Women's Wear</span>
+            </div>
+            <div class="cate-item">
+                男装穿搭
+                <span class="en-text">Men's Outfits</span>
+            </div>
+            <div class="cate-item">
+                厨房用品
+                <span class="en-text">Kitchen Goods</span>
+            </div>
+            <div class="cate-item">
+                居家百货
+                <span class="en-text">Home Sundries</span>
+            </div>
+        </div>
+
+        <!-- 服饰专区 -->
+        <div id="clothes">
+            <div class="title-box">
+                <h3>潮流服饰专区</h3>
+                <div class="en-title">Fashion Clothing Collection</div>
+                <span></span>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                    <img src="images/tshirt.jpg" alt="简约纯棉基础T恤" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">简约纯棉基础T恤 多色可选
+                            <span class="en-text">Basic Cotton T-shirt, Multi Colors</span>
+                        </div>
+                        <div class="goods-price">¥59.90 / $8.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/dress.jpg" alt="简约纯棉基础T恤" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">夏季显瘦碎花连衣裙
+                            <span class="en-text">Summer Floral Slim Dress</span>
+                        </div>
+                        <div class="goods-price">¥129.00 / $18.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/jacket.jpg" alt="简约纯棉基础T恤" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">休闲工装夹克外套
+                            <span class="en-text">Casual Workwear Jacket</span>
+                        </div>
+                        <div class="goods-price">¥169.00 / $24.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/pants.jpg" alt="弹力修身直筒牛仔裤" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">弹力修身直筒牛仔裤
+                            <span class="en-text">Stretch Straight Jeans</span>
+                        </div>
+                        <div class="goods-price">¥89.90 / $12.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 家居生活用品 -->
+        <div id="homegoods" style="margin-top:80px;">
+            <div class="title-box">
+                <h3>家居生活用品</h3>
+                <div class="en-title">Household Daily Supplies</div>
+                <span></span>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                    <img src="images/pan.jpg" alt="简约纯棉基础T恤" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">不粘平底煎锅家用厨具
+                            <span class="en-text">Non-stick Frying Pan Kitchenware</span>
+                        </div>
+                        <div class="goods-price">¥79.00 / $11.50</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/css.jpg" alt="纯棉四件套床上用品" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">纯棉四件套床上用品
+                            <span class="en-text">Cotton 4-Piece Bedding Set</span>
+                        </div>
+                        <div class="goods-price">¥199.00 / $28.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/sb.jpg" alt="家用除尘静电拖把套装" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">家用除尘静电拖把套装
+                            <span class="en-text">Dust Removal Mop Set</span>
+                        </div>
+                        <div class="goods-price">¥45.90 / $6.69</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                   <img src="images/dsb.jpg" alt="大容量便携保温水杯" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">大容量便携保温水杯
+                            <span class="en-text">Large Capacity Insulated Water Cup</span>
+                        </div>
+                        <div class="goods-price">¥39.90 / $5.89</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 热销榜单 -->
+        <div id="hot" style="margin-top:80px;">
+            <div class="title-box">
+                <h3>本周热销榜单</h3>
+                <div class="en-title">This Week Bestsellers</div>
+                <span></span>
+            </div>
+            <div class="goods-grid">
+                <div class="goods-card">
+                   <img src="images/wz.jpg" alt="透气棉袜10双装" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">透气棉袜10双装
+                            <span class="en-text">10 Pairs Breathable Cotton Socks</span>
+                        </div>
+                        <div class="goods-price">¥29.90 / $4.39</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/ys.jpg" alt="成人软毛牙刷家庭套装" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">成人软毛牙刷家庭套装
+                            <span class="en-text">Family Soft Toothbrush Pack</span>
+                        </div>
+                        <div class="goods-price">¥19.90 / $2.99</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                   <img src="images/xbx.jpg" alt="百搭休闲小白鞋" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">百搭休闲小白鞋
+                            <span class="en-text">Versatile Casual White Sneakers</span>
+                        </div>
+                        <div class="goods-price">¥119.00 / $17.49</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+                <div class="goods-card">
+                    <img src="images/snh.jpg" alt="加厚多功能收纳桶" width="100%" height="100%" style="object-fit:cover;">
+</div>
+                    <div class="goods-info">
+                        <div class="goods-name">加厚多功能收纳桶
+                            <span class="en-text">Thick Multi-purpose Storage Bucket</span>
+                        </div>
+                        <div class="goods-price">¥35.00 / $5.10</div>
+                        <button class="add-cart" onclick="addCart()">加入购物车 | Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 悬浮购物车按钮 -->
+    <div class="float-cart">
+        🛒
+        <span class="cart-num" id="cartCount">0</span>
+    </div>
+
+    <!-- 常驻WhatsApp悬浮窗口 -->
+    <div class="float-whatsapp">
+        <div class="wa-box" id="waPopup">
+            <h4>在线客服 / Online Support</h4>
+            <p>有任何询价、下单问题可直接联系WhatsApp<br>Contact us for orders & price inquiry</p>
+            <div class="wa-phone">+86 18379915272</div>
+            <a href="https://wa.me/8618379915272" target="_blank" class="wa-link">立即聊天 Chat Now</a>
+        </div>
+        <div class="wa-btn" id="waBtn">💬</div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer id="about">
+        <div class="footer-wrap">
+            <div class="footer-col">
+                <h4>商品分类 / Categories</h4>
+                <ul>
+                    <li><a href="#clothes">男女服饰 Men & Women Clothing</a></li>
+                    <li><a href="#homegoods">厨房用具 Kitchen Tools</a></li>
+                    <li><a href="#homegoods">家纺床品 Bedding</a></li>
+                    <li><a href="#hot">日用百货 Daily Goods</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>客户服务 / Customer Service</h4>
+                <ul>
+                    <li><a href="#">配送说明 Shipping Info</a></li>
+                    <li><a href="#">退换货政策 Return Policy</a></li>
+                    <li><a href="#">支付方式 Payment Method</a></li>
+                    <li><a href="#">常见问题 FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>关于店铺 / About Store</h4>
+                <ul>
+                    <li><a href="#">品牌介绍 Brand Intro</a></li>
+                    <li><a href="#">联系我们 Contact Us</a></li>
+                    <li><a href="#">批量采购 Wholesale</a></li>
+                    <li><a href="#">合作招商 Cooperation</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>联系方式 / Contact</h4>
+                <ul>
+                    <li>WhatsApp: +86 18379915272</li>
+                    <li>邮箱 Email: service@lifemall.com</li>
+                    <li>工作时间 Hours: 9:00-22:00</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 LifeMall 综合零售独立站 All Rights Reserved
+            <br>服饰家居跨境一站式购物平台 One-stop Cross-border Shopping Platform
+        </div>
+    </footer>
+
+    <script>
+        // 购物车数量计数
+        let count = 0;
+        function addCart(){
+            count++;
+            document.getElementById("cartCount").innerText = count;
+            alert("商品已加入购物车！当前共"+count+"件商品\nItem added to cart! Total items: "+count);
+        }
+
+        // WhatsApp弹窗切换逻辑
+        const waBtn = document.getElementById("waBtn");
+        const waPopup = document.getElementById("waPopup");
+        waBtn.onclick = function(){
+            waPopup.style.display = waPopup.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>
